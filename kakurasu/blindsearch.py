@@ -1,10 +1,4 @@
-from ast import Delete
-from asyncio.windows_events import NULL
-from email import iterators
 from enum import Enum, unique, Flag
-from re import L
-from select import select
-from tkinter.tix import Tree
 from turtle import color
 import numpy as np
 
@@ -142,7 +136,7 @@ def color_board(board, numlist, col):
                 
 def find_next_state(board_list):
     while(board_list):
-        print("start printing all of the state:\n")
+        # print("start printing all of the state:\n")
         Board_state1 = board_list.pop()
         board1 = Board_state1.board
         # board1.printBoard()
@@ -173,37 +167,9 @@ if __name__ == "__main__":
     #                 41, 40, 29, 25, 39, 41, 38, 38, 42])
     # board1 = Board(7, 7, [3, 13, 1, 13, 4, 11, 5], [9, 3, 5, 2, 13, 10, 6])
     board1 = Board(6, 6, [17, 18, 12, 10, 12, 11], [15, 18, 16, 6, 6, 17])
-    # list = []
-    # find_combi(list, 41, 9)
-    # # board1.printBoard()
-    
-    # for x in list:
-    #     print("now processing list: ", x)
-    #     board2 = Board(board1.rowNum, board1.colNum, board1.sumRows, board1.sumCols)
-    #     board2.Gridcopy(board1)
-    #     color_board(board2, x, 0)
-    #     if board2.islegitBoard():
-    #         boardlist += [Board_state(board2, 0 + 1)]
-    #     print(boardlist[len(boardlist) - 1].CurCol)
-    
-    # board_state1 = boardlist.pop()
-    # board1 = board_state1.board
-    # col = board_state1.CurCol
-    # # board1.printBoard()
-    # list = []
-    # find_combi(list, 40, 9)
-    # for x in list:
-    #     print("now processing list: ", x)
-    #     board2 = Board(board1.rowNum, board1.colNum, board1.sumRows, board1.sumCols)
-    #     board2.Gridcopy(board1)
-    #     color_board(board2, x, col)
-    #     if board2.islegitBoard():
-    #         boardlist += [Board_state(board2, col + 1)]
-    #     print(boardlist[len(boardlist) - 1].CurCol)
-    
     board_list = [Board_state(board1, 0)]
     board2 = find_next_state(board_list)
     if board2:
         board2.printBoard()
     else:
-        print("Non")
+        print("Not found")
