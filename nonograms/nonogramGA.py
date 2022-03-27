@@ -152,7 +152,7 @@ def GeneticAlgorithm(arrlines,arrcolumns,nPop,pc,pm):
     return bestsol(sol)
         
     
-def main(filename = 'demo.txt', nPop = 100,pc = 0.6,pm =0.02):
+def main(filename = 'demo.txt', nPop = 100,pc = 0.7,pm =0.02):
     if len(sys.argv) > 1:
         filename = sys.argv[0]
     if len(sys.argv) > 2:
@@ -161,7 +161,7 @@ def main(filename = 'demo.txt', nPop = 100,pc = 0.6,pm =0.02):
         pc = sys.argv[2]
     if len(sys.argv) > 4:
         pm = sys.argv[3]
-    l,c = readfile('nonograms/'+filename)
+    l,c = readfile(filename)
     mysol = GeneticAlgorithm(l,c,nPop,pc,pm)
     print("Final Solution: ")
     printnonogram(mysol,l,c)
