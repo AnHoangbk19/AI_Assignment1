@@ -1,8 +1,9 @@
 import numpy as np
 import random
-from numpy import char, random, sort
+from numpy import random, sort
 import sys
-
+from time import  time
+import tracemalloc
 class nonogramSol:
     def __init__(self,arrlines,arrcolumns,points):
         self.arrlines = arrlines
@@ -146,21 +147,21 @@ def GeneticAlgorithm(arrlines,arrcolumns,nPop,pc,pm):
         sol = select(sol3,nPop)
         ite +=1
         print("iteration: ",ite)
-        print(bestsol(sol).eval)
+        print("Evaluation: ",bestsol(sol).eval)
         printnonogram(bestsol(sol),arrlines,arrcolumns)
         print("==================")
     return bestsol(sol)
         
     
-def main(filename = 'demo.txt', nPop = 100,pc = 0.7,pm =0.02):
+def main(filename = 'demo.txt', nPop = 100,pc = 0.6,pm =0.05):
     if len(sys.argv) > 1:
-        filename = sys.argv[0]
+        filename = sys.argv[1]
     if len(sys.argv) > 2:
-        nPop = sys.argv[1]
+        nPop = int(sys.argv[2])
     if len(sys.argv) > 3:
-        pc = sys.argv[2]
+        pc = float(sys.argv[3])
     if len(sys.argv) > 4:
-        pm = sys.argv[3]
+        pm = float(sys.argv[4])
     l,c = readfile(filename)
     mysol = GeneticAlgorithm(l,c,nPop,pc,pm)
     print("Final Solution: ")
@@ -178,4 +179,10 @@ def printnonogram(sol,arrlines,arrcolumns):
                 res[l][c] = "_"
     print(res)
 if __name__ == "__main__":
+    star = time()
+    tracemalloc.start()
     main()
+    end = time()
+    print("Time: ",end - star,"s")
+    print("Memory useage (current,peak): ",tracemalloc.get_traced_memory())
+    tracemalloc.stop()
