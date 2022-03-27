@@ -2,8 +2,7 @@ import numpy as np
 import random
 from numpy import char, random, sort
 import sys
-pc = 0.7
-pm = 0.01
+
 class nonogramSol:
     def __init__(self,arrlines,arrcolumns,points):
         self.arrlines = arrlines
@@ -79,7 +78,7 @@ def check(sol):
         if i.eval == 0:
             return True
     return False
-def crossover(sol,arrlines,arrcolumns):
+def crossover(sol,arrlines,arrcolumns,pc):
     n = len(sol)
     nLines = len(arrlines)
     nColumns = len(arrcolumns)
@@ -108,7 +107,7 @@ def crossover(sol,arrlines,arrcolumns):
                     child2[l][c] = parent1.points[l][c]
         res += [nonogramSol(arrlines,arrcolumns,child1),nonogramSol(arrlines,arrcolumns,child2)]
     return res
-def mution(sol,arrlines,arrcolumns):
+def mution(sol,arrlines,arrcolumns,pm):
     res = []
     nLines = len(arrlines)
     nColumns = len(arrcolumns)
@@ -138,23 +137,32 @@ def bestsol(sol):
         if i.eval == 0:
             return i
     return sol[0]
-def GeneticAlgorithm(arrlines,arrcolumns,nPop):
+def GeneticAlgorithm(arrlines,arrcolumns,nPop,pc,pm):
     ite = 0
     sol = createpopulation(arrlines,arrcolumns,nPop)
     while check(sol) == False:
-        sol2 = crossover(sol,arrlines,arrcolumns)
-        sol3 = mution(sol2,arrlines,arrcolumns)
+        sol2 = crossover(sol,arrlines,arrcolumns,pc)
+        sol3 = mution(sol2,arrlines,arrcolumns,pm)
         sol = select(sol3,nPop)
         ite +=1
         print("iteration: ",ite)
         print(bestsol(sol).eval)
+        printnonogram(bestsol(sol),arrlines,arrcolumns)
         print("==================")
     return bestsol(sol)
         
     
-def main(filename = 'demo.txt', nPop = 700):
-    l,c = readfile(filename)
-    mysol = GeneticAlgorithm(l,c,nPop)
+def main(filename = 'demo.txt', nPop = 100,pc = 0.6,pm =0.02):
+    if len(sys.argv) > 1:
+        filename = sys.argv[0]
+    if len(sys.argv) > 2:
+        nPop = sys.argv[1]
+    if len(sys.argv) > 3:
+        pc = sys.argv[2]
+    if len(sys.argv) > 4:
+        pm = sys.argv[3]
+    l,c = readfile('nonograms/'+filename)
+    mysol = GeneticAlgorithm(l,c,nPop,pc,pm)
     print("Final Solution: ")
     printnonogram(mysol,l,c)
 
