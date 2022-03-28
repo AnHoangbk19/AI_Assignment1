@@ -122,14 +122,15 @@ def mution(sol,arrlines,arrcolumns,pm):
                     temp[l][c] = not i.points[l][c]
         res += [nonogramSol(arrlines,arrcolumns,temp)]
     return res
-def select(sol,nPop):
+def select(parent,child,nPop):
     res = []
-    n = len(sol)
-    temp = sorted(sol,key = lambda x : x.eval)
-    nbest = int(7*nPop/10) 
-    nrandom = nPop - nbest
-    bestsol = temp[:nbest]
-    othersol = temp[nbest:]
+    parent = sorted(parent,key = lambda x : x.eval)
+    child = sorted(child,key = lambda x : x.eval)
+    parentbest = int(2*nPop/10) 
+    childbest = int(5*nPop/10) 
+    nrandom = nPop - parentbest - childbest
+    bestsol = parent[:parentbest] + child[:childbest]
+    othersol = parent[parentbest:] + child[childbest:]
     randsol = np.ndarray.tolist(random.choice(othersol,size = nrandom))
     res = bestsol + randsol
     return res
@@ -141,19 +142,20 @@ def bestsol(sol):
 def GeneticAlgorithm(arrlines,arrcolumns,nPop,pc,pm):
     ite = 0
     sol = createpopulation(arrlines,arrcolumns,nPop)
+    #count = 0
     while check(sol) == False:
+        #temp = bestsol(sol).eval
         sol2 = crossover(sol,arrlines,arrcolumns,pc)
         sol3 = mution(sol2,arrlines,arrcolumns,pm)
-        sol = select(sol3,nPop)
+        sol = select(sol,sol3,nPop)
         ite +=1
         print("iteration: ",ite)
         print("Evaluation: ",bestsol(sol).eval)
-        printnonogram(bestsol(sol),arrlines,arrcolumns)
         print("==================")
     return bestsol(sol)
         
     
-def main(filename = 'demo.txt', nPop = 100,pc = 0.6,pm =0.05):
+def main(filename = '5x5.txt', nPop = 500,pc = 0.6,pm =0.05):
     if len(sys.argv) > 1:
         filename = sys.argv[1]
     if len(sys.argv) > 2:
