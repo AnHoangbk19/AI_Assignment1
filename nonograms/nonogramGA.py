@@ -149,9 +149,9 @@ def GeneticAlgorithm(arrlines,arrcolumns,nPop,pc,pm):
         sol3 = mution(sol2,arrlines,arrcolumns,pm)
         sol = select(sol,sol3,nPop)
         ite +=1
-        print("iteration: ",ite)
-        print("Evaluation: ",bestsol(sol).eval)
-        print("==================")
+        #print("iteration: ",ite)
+        #print("Evaluation: ",bestsol(sol).eval)
+        #print("==================")
     return bestsol(sol)
         
     
