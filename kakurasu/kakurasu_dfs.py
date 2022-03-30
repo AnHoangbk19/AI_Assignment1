@@ -136,10 +136,10 @@ def color_board(board, numlist, col):
                 
 def find_next_state(board_list):
     while(board_list):
-        # print("start printing current state:\n")
+        print("start printing current state:\n")
         Board_state1 = board_list.pop()
         board1 = Board_state1.board
-        # board1.printBoard()
+        board1.printBoard()
         col = Board_state1.CurCol
         if col == board1.rowNum:
             return board1
@@ -151,7 +151,7 @@ def find_next_state(board_list):
             color_board(board2, x, col)
             if board2.islegitBoard():
                 board_list += [Board_state(board2, col + 1)]
-        # print("end of printing\n")
+        print("end of printing\n")
     return NULL
                     
                 
