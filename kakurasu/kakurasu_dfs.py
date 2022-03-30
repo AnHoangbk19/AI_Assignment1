@@ -1,5 +1,4 @@
 from enum import Enum, unique, Flag
-from turtle import color
 import numpy as np
 
 
@@ -22,16 +21,6 @@ class Board:
         self.sumCols = sumCols.copy()  # A list stores sum of each column of board
         # Two dimensions list represents rowNum x colNum board grid
         self.boardGrid = np.full((self.rowNum, self.colNum), Color.GREY)
-    
-    def sumRow(self):
-        res = []
-        for i in range(self.rowNum):
-            for j in range(self.colNum):
-                tempt = 0
-                if self.boardGrid[i][j] == Color.BLACK:
-                    tempt += 1
-            res += [tempt]
-        return res
     
     def sumBoard(self):
         rowSum = [0 for i in range(self.rowNum)]
@@ -58,19 +47,6 @@ class Board:
                 return flag
         return flag        
 
-    def isFinalAnswer(self):
-        res = self.sumBoard()
-        rowSum = res[0]
-        colSum = res[1]
-        flag = True
-        for i in range(self.rowNum):
-            if rowSum[i] == self.sumRows[i]:
-                flag = False
-        for i in range(self.colNum):
-            if colSum[i] == self.sumCols[i]:
-                flag = False
-        return flag
-
     def Gridcopy(self, board):
         for i in range(self.rowNum):
             for j in range(self.colNum):
@@ -96,12 +72,9 @@ class Board_state:
     def __init__(self, board, CurCol):
         self.board = board
         self.CurCol = CurCol
-    def print_BS(self):
-        self.board.printBoard()
         
     
 def find_combi(numlist, target, maxE):
-    print("enter finding combination")
     ele_list = [x + 1 for x in range(maxE)]
     cur = 0
     selected_num = []
@@ -135,11 +108,12 @@ def color_board(board, numlist, col):
             board.boardGrid[i][col] = Color.WHITE           
                 
 def find_next_state(board_list):
-    while(board_list):
-        print("start printing current state:\n")
+    while(board_list):     
+        # print("Start printing current state:\n")          # Step by step printing
         Board_state1 = board_list.pop()
         board1 = Board_state1.board
-        board1.printBoard()
+        # board1.printBoard()                               # Step by step printing
+        # print("End of printing\n")                        # Step by step printing
         col = Board_state1.CurCol
         if col == board1.rowNum:
             return board1
@@ -151,7 +125,6 @@ def find_next_state(board_list):
             color_board(board2, x, col)
             if board2.islegitBoard():
                 board_list += [Board_state(board2, col + 1)]
-        print("end of printing\n")
     return NULL
                     
                 
@@ -165,10 +138,18 @@ if __name__ == "__main__":
     # board1 = Board(9, 9, [23, 33, 35, 42, 40, 42, 30, 38, 41], [
     #                 41, 40, 29, 25, 39, 41, 38, 38, 42])
     # board1 = Board(7, 7, [3, 13, 1, 13, 4, 11, 5], [9, 3, 5, 2, 13, 10, 6])
-    board1 = Board(6, 6, [17, 18, 12, 10, 12, 11], [15, 18, 16, 6, 6, 17])
+    
+    
+    board1 = Board(5, 5, 
+                   [11, 8, 6, 13, 14], 
+                   [7, 9, 12, 14, 10])
+    
+    
     board_list = [Board_state(board1, 0)]
     board2 = find_next_state(board_list)
     if board2:
+        print("The solution is:\n")
+        print("")
         board2.printBoard()
     else:
         print("Not found")
